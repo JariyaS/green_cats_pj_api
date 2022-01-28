@@ -14,6 +14,8 @@ app.use(express.json());
 
 //Register,Login
 app.use("/users", userRoute);
+
+//Catalogue, get all product without price
 app.use("/products", productRoute);
 
 app.use((req, res, next) => {

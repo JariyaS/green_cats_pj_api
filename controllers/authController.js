@@ -92,7 +92,7 @@ exports.login = async (req, res, next) => {
       return res.status(400).json({ message: "invalid email or password" });
     }
 
-    //ส่วนของการสร้าง jsonwebtoken
+    //create jsonwebtoken
     const payload = {
       id: user.id,
       firstName: user.firstName,
