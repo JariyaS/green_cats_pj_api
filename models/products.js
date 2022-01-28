@@ -37,6 +37,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
     });
+    Product.belongsTo(models.Brand, {
+      foreignKey: {
+        name: "brandId",
+        allowNull: false,
+      },
+    });
   };
 
   return Product;

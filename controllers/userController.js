@@ -8,3 +8,9 @@ exports.getUser = (req, res, next) => {
     .status(200)
     .json({ user: { id, firstName, lastName, email, phoneNumber } });
 };
+
+exports.test = (req, res, next) => {
+  console.log("test controller");
+  // console.log(req.user);
+  res.status(200).json(req.user);
+};

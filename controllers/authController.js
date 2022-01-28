@@ -2,6 +2,40 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 
+exports.authenticate = async (req, res, next) => {
+  try {
+    // get request headers
+    // const headers = req.headers
+    const { authorization } = req.headers;
+    if (!authorization || !authorization.startsWith("Bearer")) {
+      return res.status(401).json({ message: "you are unauthorized 1" });
+    }
+    const token = authorization.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "you are unauthorized 2" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    //decode payload{id: , firstName, lastName}
+
+    const user = await User.findOne({ where: { id: decoded.id } });
+    if (!user) {
+      return res.status(401).json({ message: "you are unauthorized 3" });
+    }
+    req.user = {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+    };
+    req.data = decoded;
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
 // ไม่เช็ครูปแบบของอีเมล เนื่องจากกำหนดค่า validate isEmail ใน model แล้ว
 exports.register = async (req, res, next) => {
   try {
@@ -42,7 +76,7 @@ exports.register = async (req, res, next) => {
   }
 };
 
-const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+// const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 exports.login = async (req, res, next) => {
   try {
