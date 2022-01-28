@@ -28,6 +28,7 @@ exports.authenticate = async (req, res, next) => {
       firstName: user.firstName,
       lastName: user.lastName,
       phoneNumber: user.phoneNumber,
+      userRole: user.userRole,
     };
     req.data = decoded;
     next();
