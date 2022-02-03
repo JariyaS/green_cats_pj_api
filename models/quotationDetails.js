@@ -9,12 +9,21 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
-      totalAmount: {
+      totalOfferAmount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
           notEmpty: true,
         },
+      },
+      ptPrice: {
+        type: DataTypes.DOUBLE(16, 15),
+      },
+      pdPrice: {
+        type: DataTypes.FLOAT(16, 15),
+      },
+      rhPrice: {
+        type: DataTypes.FLOAT(16, 15),
       },
     },
 

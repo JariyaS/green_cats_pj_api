@@ -12,17 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       productImg: {
         type: DataTypes.STRING,
       },
-      PtToz: {
+      ptToz: {
         type: DataTypes.DECIMAL(5, 2),
       },
-      PdToz: {
+      pdToz: {
         type: DataTypes.DECIMAL(5, 2),
       },
-      RhToz: {
+      rhToz: {
         type: DataTypes.DECIMAL(5, 2),
-      },
-      productPrice: {
-        type: DataTypes.DECIMAL(10, 2),
       },
     },
 

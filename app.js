@@ -1,9 +1,13 @@
 require("dotenv").config();
+
 // require("/config/passport");
 const express = require("express");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/productRoute");
+const metalPriceRoute = require("./routes/metalPriceRoute");
+const getMetalApi = require("./services/getMetalApi");
+const createMetalPrice = require("./controllers/metalPriceController");
 
 const { sequelize } = require("./models/index");
 // sequelize.sync({ force: true });
@@ -17,6 +21,10 @@ app.use("/users", userRoute);
 
 //Catalogue, get all product without price
 app.use("/products", productRoute);
+
+// Request metal price from API
+// getMetalApi.getMetalApi();
+app.use("/metalprices", metalPriceRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "resource not found on this server" });

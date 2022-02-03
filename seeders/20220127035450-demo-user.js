@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         first_name: "Kenta",
-        last_name: "Kun",
+        last_name: "Kunjung",
         email: "kenta@gmail.com",
         phone_number: "0910002345",
         password: await bcrypt.hash("1234", 10),
