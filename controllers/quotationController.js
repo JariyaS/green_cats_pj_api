@@ -1,4 +1,4 @@
-const { Op, UUIDV4 } = require("sequelize");
+const { Op } = require("sequelize");
 const { Quotation } = require("../models");
 
 exports.createQuotation = async (req, res, next) => {
@@ -6,21 +6,26 @@ exports.createQuotation = async (req, res, next) => {
 
   try {
     const addQuotation = await Quotation.create(
-      ({ quotationNo, status, userId } = req.body)
+      ({ totalOfferAmount, quotationNo, status, userId } = req.body)
     );
     res.status(201).json({ addQuotation });
   } catch (err) {
     next(err);
   }
 };
-// exports.createProduct = async (req, res, next) => {
-//   console.log(req.body);
-//   try {
-//     const addProducts = await Product.create(
-//       ({ productName, productImg, ptToz, pdToz, rhToz, brandId } = req.body)
-//     );
 
-//     res.status(201).json({ addProducts });
+// exports.getAllQuotation = async (req, res, next) => {
+//   try {
+//     const product = await Quotation.findAll({
+//       attributes: ["id", "product_name", "product_img"],
+//       include: [
+//         {
+//           model: Brand,
+//           attributes: ["brand_name"],
+//         },
+//       ],
+//     });
+//     res.status(200).json({ product });
 //   } catch (err) {
 //     next(err);
 //   }
