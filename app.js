@@ -6,6 +6,7 @@ const cors = require("cors");
 const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/productRoute");
 const metalPriceRoute = require("./routes/metalPriceRoute");
+const quotationRoute = require("./routes/quotationRoute");
 const getMetalApi = require("./services/getMetalApi");
 const createMetalPrice = require("./controllers/metalPriceController");
 
@@ -25,6 +26,8 @@ app.use("/products", productRoute);
 // Request metal price from API
 // getMetalApi.getMetalApi();
 app.use("/metalprices", metalPriceRoute);
+
+app.use("/quotations", quotationRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "resource not found on this server" });

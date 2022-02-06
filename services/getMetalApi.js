@@ -19,6 +19,8 @@ exports.getMetalApi = async () => {
       rates: { XPD, XPT, XRH },
     } = res.data;
 
+    // create in DB : MetalPrice table
+
     await MetalPrice.create({
       XPD,
       XPT,

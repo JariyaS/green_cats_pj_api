@@ -2,6 +2,7 @@
 const { MetalPrice, Product } = require("../models");
 const { getMetalApi } = require("../services/getMetalApi");
 
+// get metal price through outside API by frontend
 // exports.createMetalPrice = async (req, res, next) => {
 //   try {
 //     const {
@@ -22,11 +23,12 @@ const { getMetalApi } = require("../services/getMetalApi");
 //   }
 // };
 
+// export metalPrice to Frontend
 exports.getMetalPrice = async (req, res, next) => {
   try {
     const metalPrice = await MetalPrice.findOne({
       order: [
-        // Will escape title and validate DESC against a list of valid direction parameters
+        // order by lasted of createdAt , limit 1
         ["createdAt", "DESC"],
       ],
     });

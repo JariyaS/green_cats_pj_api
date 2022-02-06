@@ -42,13 +42,7 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
     });
 
     const { XPT, XPD, XRH } = metalPrice;
-    // const mapped = product.map((item) => {
-    //   let price = item.ptToz * XPT + item.pdToz * XPD + item.rhToz * XRH;
-    //   return { ...item, price };
-    // });
-    // console.log(JSON.stringify(product, null, 2));
-    // let pp = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-    // let pp = [{}];
+
     let productPrice = new Array(product.length).fill(null).map(() => ({}));
     product.forEach((x, i) => {
       productPrice[i].id = x.id;

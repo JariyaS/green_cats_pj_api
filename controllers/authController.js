@@ -7,13 +7,13 @@ exports.authenticate = async (req, res, next) => {
     // get request headers
     // const headers = req.headers
     const { authorization } = req.headers;
-    if (!authorization || !authorization.startsWith("Bearer")) {
-      return res.status(401).json({ message: "you are unauthorized 1" });
+    if (!authorization || !authorization.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "you are unauthorized " });
     }
     const token = authorization.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ message: "you are unauthorized 2" });
+      return res.status(401).json({ message: "you are unauthorized " });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -21,7 +21,7 @@ exports.authenticate = async (req, res, next) => {
 
     const user = await User.findOne({ where: { id: decoded.id } });
     if (!user) {
-      return res.status(401).json({ message: "you are unauthorized 3" });
+      return res.status(401).json({ message: "you are unauthorized " });
     }
     req.user = {
       id: user.id,
