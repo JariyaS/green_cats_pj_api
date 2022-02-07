@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Quotation = sequelize.define(
     "Quotation",
     {
-      totalOfferPrice: {
+      totalOfferAmount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       //     notEmpty: true,
       //   },
       quotationNo: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
 
       status: {

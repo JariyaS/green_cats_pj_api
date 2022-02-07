@@ -3,7 +3,7 @@ const { MetalPrice } = require("../models");
 
 const metalApi = "https://www.metals-api.com/api/latest";
 const accessKey =
-  "7mqcr74eq6g2s32p4z32f0pjhzdrtga9f8osh03qgvq22rc0s9mckayn56gy";
+  "hcf4dxqpwh5non4or3sd3z02y3arasjkje7wn5mfbu6d8avdg5o00v613cpb";
 
 exports.getMetalApi = async () => {
   try {

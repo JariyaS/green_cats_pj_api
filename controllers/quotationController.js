@@ -5,28 +5,26 @@ exports.createQuotation = async (req, res, next) => {
   console.log(req.body);
 
   try {
-    const addQuotation = await Quotation.create(
-      ({ totalOfferAmount, quotationNo, status, userId } = req.body)
-    );
+    const { totalOfferAmount, status, userId } = req.body;
+    const quotationNo = Number(new Date());
+    console.log(quotationNo);
+    const addQuotation = await Quotation.create({
+      totalOfferAmount,
+      status,
+      userId,
+      quotationNo,
+    });
     res.status(201).json({ addQuotation });
   } catch (err) {
     next(err);
   }
 };
 
-// exports.getAllQuotation = async (req, res, next) => {
-//   try {
-//     const product = await Quotation.findAll({
-//       attributes: ["id", "product_name", "product_img"],
-//       include: [
-//         {
-//           model: Brand,
-//           attributes: ["brand_name"],
-//         },
-//       ],
-//     });
-//     res.status(200).json({ product });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+exports.getAllQuotation = async (req, res, next) => {
+  try {
+    const quotation = await Quotation.findAll({});
+    res.status(200).json({ quotation });
+  } catch (err) {
+    next(err);
+  }
+};

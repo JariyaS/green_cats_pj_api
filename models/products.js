@@ -28,12 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Product.associate = (models) => {
-    Product.hasMany(models.QuotationDetail, {
-      foreignKey: {
-        name: "productId",
-        allowNull: false,
-      },
-    });
+    // Product.hasMany(models.QuotationDetail, {
+    //   foreignKey: {
+    //     name: "productId",
+    //     allowNull: false,
+    //   },
+    // });
     Product.belongsTo(models.Brand, {
       foreignKey: {
         name: "brandId",

@@ -4,6 +4,7 @@ const quotationController = require("../controllers/quotationController");
 const router = express.Router();
 
 router.post("/", quotationController.createQuotation);
+router.get("/", quotationController.getAllQuotation);
 
 // router.post("/products/:id", productController.getProduct)
 

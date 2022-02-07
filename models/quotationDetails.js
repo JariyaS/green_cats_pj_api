@@ -39,12 +39,12 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
 
-    QuotationDetail.belongsTo(models.Product, {
-      foreignKey: {
-        name: "productId",
-        allowNull: false,
-      },
-    });
+    // QuotationDetail.belongsTo(models.Product, {
+    //   foreignKey: {
+    //     name: "productId",
+    //     allowNull: false,
+    //   },
+    // });
   };
 
   return QuotationDetail;
