@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
-      totalOfferAmount: {
+      productPrice: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         validate: {
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE(16, 15),
       },
       pdPrice: {
-        type: DataTypes.FLOAT(16, 15),
+        type: DataTypes.DOUBLE(16, 15),
       },
       rhPrice: {
-        type: DataTypes.FLOAT(16, 15),
+        type: DataTypes.DOUBLE(16, 15),
       },
     },
 
@@ -39,12 +39,12 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
 
-    // QuotationDetail.belongsTo(models.Product, {
-    //   foreignKey: {
-    //     name: "productId",
-    //     allowNull: false,
-    //   },
-    // });
+    QuotationDetail.belongsTo(models.Product, {
+      foreignKey: {
+        name: "productId",
+        allowNull: false,
+      },
+    });
   };
 
   return QuotationDetail;

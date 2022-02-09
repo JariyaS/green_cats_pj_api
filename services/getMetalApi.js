@@ -30,3 +30,18 @@ exports.getMetalApi = async () => {
     // console.log(err);
   }
 };
+
+// check current metal's price in local DB
+exports.getMetalPrice = async () => {
+  try {
+    const metalPrice = await MetalPrice.findOne({
+      order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["createdAt", "DESC"],
+      ],
+    });
+    return metalPrice;
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -32,7 +32,8 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
       ],
     });
     // console.log(JSON.stringify(product, null, 4));
-    // console.log(product[0].id);
+    console.log("---------");
+    console.log(product[0].pdToz);
 
     const metalPrice = await MetalPrice.findOne({
       order: [
@@ -50,8 +51,10 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
       productPrice[i].productImg = x.productImg;
       productPrice[i].brand = x.Brand.dataValues.brand_name;
       productPrice[i].ptToz = x.ptToz;
+      productPrice[i].pdToz = x.pdToz;
+      productPrice[i].rhToz = x.rhToz;
 
-      // console.log(x.id);
+      // console.log(x.pdToz);
       // console.log(i);
       productPrice[i].price = (
         (x.ptToz * XPT + x.pdToz * XPD + x.rhToz * XRH) *
