@@ -3,6 +3,7 @@ require("dotenv").config();
 // require("/config/passport");
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/productRoute");
 const metalPriceRoute = require("./routes/metalPriceRoute");
@@ -17,6 +18,8 @@ const { sequelize } = require("./models/index");
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(morgan("tiny"));
 
 //Register,Login
 app.use("/users", userRoute);
