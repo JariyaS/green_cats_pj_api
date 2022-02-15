@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const { Product, Brand, MetalPrice } = require("../models");
 
-//get all product without price : Guest
+//get all products without price : Guest
 exports.getAllProductsWithoutPrice = async (req, res, next) => {
   try {
     const product = await Product.findAll({
@@ -19,11 +19,10 @@ exports.getAllProductsWithoutPrice = async (req, res, next) => {
   }
 };
 
-//get all products with price (for) User )
+//get all products with price
 exports.getAllProductsWithPrice = async (req, res, next) => {
   try {
     const product = await Product.findAll({
-      // attributes: ["id", "product_name"],
       include: [
         {
           model: Brand,
@@ -32,17 +31,19 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
       ],
     });
     // console.log(JSON.stringify(product, null, 4));
-    console.log("---------");
-    console.log(product[0].pdToz);
+
+    // console.log(product[0].pdToz);
 
     const metalPrice = await MetalPrice.findOne({
       order: [
         // Will escape title and validate DESC against a list of valid direction parameters
-        ["createdAt", "DESC"],
+        ["createdAt", "DESC"], // get lasted MetalPrice , order by createdAt DESC
       ],
     });
 
     const { XPT, XPD, XRH } = metalPrice;
+
+    // use forEach to push id, productName,brand,ptToz/pdToz,rhToz(value) in Array of object
 
     let productPrice = new Array(product.length).fill(null).map(() => ({}));
     product.forEach((x, i) => {
@@ -68,6 +69,7 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
   }
 };
 
+// create product's items in DB through req.body
 exports.createProduct = async (req, res, next) => {
   console.log(req.body);
   try {

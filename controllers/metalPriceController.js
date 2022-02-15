@@ -28,7 +28,7 @@ exports.getMetalPrice = async (req, res, next) => {
   try {
     const metalPrice = await MetalPrice.findOne({
       order: [
-        // order by lasted of createdAt , limit 1
+        // order by lasted of createdAt ,
         ["createdAt", "DESC"],
       ],
     });

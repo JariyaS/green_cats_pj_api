@@ -1,5 +1,11 @@
 const { Op } = require("sequelize");
-const { Quotation, QuotationDetail, Product } = require("../models");
+const {
+  Quotation,
+  QuotationDetail,
+  Product,
+  Brand,
+  User,
+} = require("../models");
 const quotationDetails = require("../models/quotationDetails");
 const { getMetalPrice } = require("../services/getMetalApi");
 
@@ -14,7 +20,7 @@ exports.createQuotation = async (req, res, next) => {
       totalOfferAmount,
       status,
       userId,
-      quotationNo,
+      quotationNo, // created by Number(new Date())
     });
 
     res.status(201).json({ addQuotation });
@@ -32,9 +38,40 @@ exports.getAllQuotation = async (req, res, next) => {
   }
 };
 
+exports.getQuotationById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const quotationDetail = await Quotation.findOne({
+      include: [
+        {
+          model: User,
+        },
+        {
+          model: QuotationDetail,
+          include: [
+            {
+              model: Product,
+              include: [
+                {
+                  model: Brand,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      where: { id: id },
+    });
+    res.status(201).json(quotationDetail);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.addQuotationDetail = async (req, res, next) => {
+  // get quotationId, cartItems from Fronte
   const { quotationId, cartItems } = req.body;
-  // console.log("REQUEST +++++--->", req.body);
+
   console.log(cartItems);
   // const { id } = req.params; // quotationId
 
@@ -45,6 +82,8 @@ exports.addQuotationDetail = async (req, res, next) => {
     // });
     // console.log(product);
     // let price = await getMetalPrice();
+
+    // input new items by mapping data
     const productList = [];
     const newCart = cartItems.map(({ qty, id, price, ...item }) => {
       productList.push(id);
@@ -64,31 +103,8 @@ exports.addQuotationDetail = async (req, res, next) => {
     // เปลี่ยนแปลงข้อมูลให้ได้ตามที่ต้องการด้วย method ต่างๆก่อน แล้วค่อย bulk create ชุดข้อมูล
     // map data
 
-    const addQuotationDetailResult = await QuotationDetail.bulkCreate(
-      newCart
-      //   [
-      //   {
-      //     quantity: quantity.map((item) => item.qty),
-      //     price: (
-      //       (price.XPT * product.ptToz +
-      //         price.XPD * product.pdToz +
-      //         price.XRH * product.rhToz) *
-      //       10e4
-      //     ).toFixed(2),
-      //     ptPrice: price.XPT * product.ptToz,
-      //     pdPrice: price.XPD * product.pdToz,
-      //     rhPrice: price.XRH * product.rhToz,
-      //     productId: product.id,
-      //     quotationId,
-      //   },
-      // ]
-    );
-    // .then(() => {
-    //   return QuotationDetail.findAll();
-    // })
-    // .then((quotationDetails) => {
-    //   // console.log(quotationDetails);
-    // });
+    const addQuotationDetailResult = await QuotationDetail.bulkCreate(newCart);
+
     res.status(201).json({ addQuotationDetailResult });
   } catch (err) {
     next(err);
