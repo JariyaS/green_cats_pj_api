@@ -73,16 +73,8 @@ exports.addQuotationDetail = async (req, res, next) => {
   const { quotationId, cartItems } = req.body;
 
   console.log(cartItems);
-  // const { id } = req.params; // quotationId
 
-  // console.log(req.params);
   try {
-    // const product = await Product.findOne({
-    //   where: { id: productId },
-    // });
-    // console.log(product);
-    // let price = await getMetalPrice();
-
     // input new items by mapping data
     const productList = [];
     const newCart = cartItems.map(({ qty, id, price, ...item }) => {
@@ -95,13 +87,8 @@ exports.addQuotationDetail = async (req, res, next) => {
         quotationId,
       };
     });
-    // const product = await Product.findAll({
-    //   where: { id: productList },
-    //   raw: true,
-    // });
 
     // เปลี่ยนแปลงข้อมูลให้ได้ตามที่ต้องการด้วย method ต่างๆก่อน แล้วค่อย bulk create ชุดข้อมูล
-    // map data
 
     const addQuotationDetailResult = await QuotationDetail.bulkCreate(newCart);
 
@@ -111,32 +98,24 @@ exports.addQuotationDetail = async (req, res, next) => {
   }
 };
 
-// exports.addQuotationDetail = async (req, res, next) => {
-//   const { quantity, productId } = req.body;
-//   const { id } = req.params; // quotationId
-//   try {
-//     const product = await Product.findOne({
-//       where: { id: productId },
-//     });
-//     console.log(product);
-//     let price = await getMetalPrice();
-//     console.log(price);
-//     const addQuotationDetailResult = await QuotationDetail.create({
-//       quantity,
-//       productPrice: (
-//         (price.XPT * product.ptToz +
-//           price.XPD * product.pdToz +
-//           price.XRH * product.rhToz) *
-//         10e4
-//       ).toFixed(2),
-//       ptPrice: price.XPT * product.ptToz,
-//       pdPrice: price.XPD * product.pdToz,
-//       rhPrice: price.XRH * product.rhToz,
-//       productId: product.id,
-//       quotationId: id,
-//     });
-//     res.status(201).json({ addQuotationDetailResult });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+exports.updateQuotationStatus = async (req, res, next) => {
+  try {
+    const { quotationId } = req.params;
+    const quotation = await Quotation.findOne({
+      where: {
+        id: quotationId,
+      },
+    });
+
+    if (!quotation) {
+      return res.status(400).json({ message: "this quotation not found " });
+    }
+    quotation.status = quotation.status === "Waiting" ? "Delivered" : "Waiting";
+
+    await quotation.save();
+    // res.status(200).json({ message: "Quotation status changed" });
+    res.status(200).json({ quotation });
+  } catch (err) {
+    next(err);
+  }
+};

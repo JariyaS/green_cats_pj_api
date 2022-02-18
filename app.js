@@ -18,7 +18,7 @@ const { sequelize } = require("./models/index");
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use("/static", express.static("public/images"));
 app.use(morgan("tiny"));
 
 //Register,Login

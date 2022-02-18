@@ -7,7 +7,6 @@ router.post("/create", quotationController.addQuotationDetail);
 router.post("/", quotationController.createQuotation);
 router.get("/:id", quotationController.getQuotationById);
 router.get("/", quotationController.getAllQuotation);
-
-// router.post("/products/:id", productController.getProduct)
+router.patch("/:quotationId", quotationController.updateQuotationStatus);
 
 module.exports = router;

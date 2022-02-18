@@ -1,12 +1,12 @@
 const express = require("express");
 const productController = require("../controllers/productController");
+const upload = require("../middlewares/upload");
 
 const router = express.Router();
 
-// get all products without price
 router.get("/", productController.getAllProductsWithoutPrice);
 router.get("/withprice", productController.getAllProductsWithPrice);
-router.post("/", productController.createProduct);
+router.post("/", upload.single("img"), productController.createProduct);
 
 // router.post("/products/:id", productController.getProduct)
 

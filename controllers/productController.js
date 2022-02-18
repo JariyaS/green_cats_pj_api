@@ -1,5 +1,10 @@
 const { Op } = require("sequelize");
+const fs = require("fs");
+const util = require("util");
+const cloudinary = require("cloudinary").v2;
 const { Product, Brand, MetalPrice } = require("../models");
+
+const uploadPromise = util.promisify(cloudinary.uploader.upload);
 
 //get all products without price : Guest
 exports.getAllProductsWithoutPrice = async (req, res, next) => {
@@ -55,8 +60,6 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
       productPrice[i].pdToz = x.pdToz;
       productPrice[i].rhToz = x.rhToz;
 
-      // console.log(x.pdToz);
-      // console.log(i);
       productPrice[i].price = (
         (x.ptToz * XPT + x.pdToz * XPD + x.rhToz * XRH) *
         10e4
@@ -73,9 +76,23 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   console.log(req.body);
   try {
-    const addProducts = await Product.create(
-      ({ productName, productImg, ptToz, pdToz, rhToz, brandId } = req.body)
-    );
+    const { brand, model, pt, pd, rh } = req.body;
+
+    console.log("------->", req.file);
+    let result = {};
+    if (req.file) {
+      result = await uploadPromise(req.file.path);
+      fs.unlinkSync(req.file.path);
+    }
+
+    const addProducts = await Product.create({
+      brandId: brand,
+      productName: model,
+      ptToz: pt,
+      pdToz: pd,
+      rhToz: rh,
+      productImg: result.secure_url,
+    });
 
     res.status(201).json({ addProducts });
   } catch (err) {
