@@ -74,11 +74,12 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
 
 // create product's items in DB through req.body
 exports.createProduct = async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
+    // destructuring parameter from frontend
     const { brand, model, pt, pd, rh } = req.body;
 
-    console.log("------->", req.file);
+    console.log(req.file);
     let result = {};
     if (req.file) {
       result = await uploadPromise(req.file.path);
@@ -95,6 +96,39 @@ exports.createProduct = async (req, res, next) => {
     });
 
     res.status(201).json({ addProducts });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.updateProduct = async (req, res, next) => {
+  // console.log(req.body);
+  const { id } = req.params;
+  const { brand, model, pt, pd, rh } = req.body;
+  try {
+    const product = await Product.findOne({
+      where: { id },
+    });
+    console.log("++++++++++++++");
+    console.log(product);
+    if (!product) return res.status(400).json({ message: "product not found" });
+    let result = {};
+
+    if (req.file) {
+      result = await uploadPromise(req.file.path);
+      fs.unlinkSync(req.file.path);
+    }
+    const editProduct = await product.update({
+      brandId: brand,
+      productName: model,
+      ptToz: pt,
+      pdToz: pd,
+      rhToz: rh,
+      productImg: result.secure_url,
+    });
+    // product.save();
+
+    return res.status(201).json({ editProduct });
   } catch (err) {
     next(err);
   }
