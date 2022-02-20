@@ -37,8 +37,6 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
     });
     // console.log(JSON.stringify(product, null, 4));
 
-    // console.log(product[0].pdToz);
-
     const metalPrice = await MetalPrice.findOne({
       order: [
         // Will escape title and validate DESC against a list of valid direction parameters
@@ -126,9 +124,26 @@ exports.updateProduct = async (req, res, next) => {
       rhToz: rh,
       productImg: result.secure_url,
     });
-    // product.save();
 
     return res.status(201).json({ editProduct });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteProduct = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findOne({
+      where: { id },
+    });
+
+    if (!product) {
+      return res.status(400).json({ message: "this product not found" });
+    }
+
+    await product.destroy();
+    res.status(204).json();
   } catch (err) {
     next(err);
   }
