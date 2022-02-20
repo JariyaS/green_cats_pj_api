@@ -31,7 +31,7 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
       include: [
         {
           model: Brand,
-          attributes: ["brand_name"],
+          attributes: ["id", "brand_name"],
         },
       ],
     });
@@ -54,6 +54,7 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
       productPrice[i].productName = x.productName;
       productPrice[i].productImg = x.productImg;
       productPrice[i].brand = x.Brand.dataValues.brand_name;
+      productPrice[i].brandId = x.Brand.dataValues.id;
       productPrice[i].ptToz = x.ptToz;
       productPrice[i].pdToz = x.pdToz;
       productPrice[i].rhToz = x.rhToz;
@@ -107,7 +108,7 @@ exports.updateProduct = async (req, res, next) => {
     const product = await Product.findOne({
       where: { id },
     });
-    console.log("++++++++++++++");
+
     console.log(product);
     if (!product) return res.status(400).json({ message: "product not found" });
     let result = {};
