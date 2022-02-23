@@ -119,3 +119,43 @@ exports.updateQuotationStatus = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteQuotation = async (req, res, next) => {
+  try {
+    const { quotationId } = req.params;
+    // const quotation = await Quotation.findAll({
+    //   where: { quotationId },
+    //   include: [
+    //     {
+    //       model: QuotationDetail,
+    //       attributes: ["quotationDetailId"],
+    //     },
+    //   ],
+    // const quotationDetail = await Quotation.findAll({
+    // const quotation = await QuotationDetail.findAll({
+    //   where: { id },
+    //   include: [
+    //     {
+    //       model: Quotation,
+    //       attributes: ["id"],
+    //     },
+    //   ],
+    // const quotation = await Quotation.destroy({
+    //   where: {
+    //     id,
+    //   },
+    // });
+
+    // if (!quotation) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "this quotation Detail not found" });
+    // }
+    await QuotationDetail.destroy({ where: { quotationId } });
+    await Quotation.destroy({ where: { id: quotationId } });
+
+    res.status(204).json("completed");
+  } catch (err) {
+    next(err);
+  }
+};
