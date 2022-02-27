@@ -45,15 +45,19 @@ exports.getQuotationById = async (req, res, next) => {
       include: [
         {
           model: User,
+          attributes: ["first_name", "last_name", "phone_number"],
         },
         {
           model: QuotationDetail,
+          attributes: ["quantity", "product_price"],
           include: [
             {
               model: Product,
+              attributes: ["product_name"],
               include: [
                 {
                   model: Brand,
+                  attributes: ["brand_name"],
                 },
               ],
             },
@@ -123,34 +127,7 @@ exports.updateQuotationStatus = async (req, res, next) => {
 exports.deleteQuotation = async (req, res, next) => {
   try {
     const { quotationId } = req.params;
-    // const quotation = await Quotation.findAll({
-    //   where: { quotationId },
-    //   include: [
-    //     {
-    //       model: QuotationDetail,
-    //       attributes: ["quotationDetailId"],
-    //     },
-    //   ],
-    // const quotationDetail = await Quotation.findAll({
-    // const quotation = await QuotationDetail.findAll({
-    //   where: { id },
-    //   include: [
-    //     {
-    //       model: Quotation,
-    //       attributes: ["id"],
-    //     },
-    //   ],
-    // const quotation = await Quotation.destroy({
-    //   where: {
-    //     id,
-    //   },
-    // });
 
-    // if (!quotation) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "this quotation Detail not found" });
-    // }
     await QuotationDetail.destroy({ where: { quotationId } });
     await Quotation.destroy({ where: { id: quotationId } });
 

@@ -35,13 +35,10 @@ exports.getAllProductsWithPrice = async (req, res, next) => {
         },
       ],
     });
-    // console.log(JSON.stringify(product, null, 4));
 
+    // get lasted MetalPrice , order by createdAt DESC
     const metalPrice = await MetalPrice.findOne({
-      order: [
-        // Will escape title and validate DESC against a list of valid direction parameters
-        ["createdAt", "DESC"], // get lasted MetalPrice , order by createdAt DESC
-      ],
+      order: [["createdAt", "DESC"]],
     });
 
     const { XPT, XPD, XRH } = metalPrice;
