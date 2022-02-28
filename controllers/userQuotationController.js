@@ -17,15 +17,19 @@ exports.getUserQuotationById = async (req, res, next) => {
       include: [
         {
           model: User,
+          attributes: ["id", "first_name", "last_name"],
         },
         {
           model: QuotationDetail,
+          attributes: ["quantity", "product_price"],
           include: [
             {
               model: Product,
+              attributes: ["product_name"],
               include: [
                 {
                   model: Brand,
+                  attributes: ["brand_name"],
                 },
               ],
             },

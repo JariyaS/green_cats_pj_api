@@ -66,7 +66,7 @@ exports.getQuotationById = async (req, res, next) => {
       ],
       where: { id: id },
     });
-    res.status(201).json(quotationDetail);
+    res.status(201).json(quotationDetail); // already in object form
   } catch (err) {
     next(err);
   }
