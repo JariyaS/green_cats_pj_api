@@ -8,8 +8,3 @@ exports.getUser = (req, res, next) => {
     .status(200)
     .json({ user: { id, firstName, lastName, email, phoneNumber, userRole } });
 };
-
-// exports.getMe = (req, res, next) => {
-//   const { id, firstName, lastName, phoneNumber } = req.user;
-//   res.status(200).json(req.user);
-// };

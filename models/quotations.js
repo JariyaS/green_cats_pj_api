@@ -10,12 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
 
-      // date: {
-      //   type: DataTypes.DATE,
-      //   allowNull: false,
-      //   validate: {
-      //     notEmpty: true,
-      //   },
       quotationNo: {
         type: DataTypes.STRING,
       },

@@ -2,8 +2,7 @@ const axios = require("axios");
 const { MetalPrice } = require("../models");
 
 const metalApi = "https://www.metals-api.com/api/latest";
-const accessKey =
-  "hcf4dxqpwh5non4or3sd3z02y3arasjkje7wn5mfbu6d8avdg5o00v613cpb";
+const accessKey = process.env.METAL_API_KEY;
 
 exports.getMetalApi = async () => {
   try {
@@ -35,10 +34,7 @@ exports.getMetalApi = async () => {
 exports.getMetalPrice = async () => {
   try {
     const metalPrice = await MetalPrice.findOne({
-      order: [
-        // Will escape title and validate DESC against a list of valid direction parameters
-        ["createdAt", "DESC"],
-      ],
+      order: [["createdAt", "DESC"]],
     });
     return metalPrice;
   } catch (err) {

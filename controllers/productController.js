@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const fs = require("fs");
 const util = require("util");
 const cloudinary = require("cloudinary").v2;
-const { Product, Brand, MetalPrice } = require("../models");
+const { Product, Brand, MetalPrice, QuotationDetail } = require("../models");
 
 const uploadPromise = util.promisify(cloudinary.uploader.upload);
 
@@ -140,6 +140,14 @@ exports.deleteProduct = async (req, res, next) => {
       return res.status(400).json({ message: "this product not found" });
     }
 
+    const productInQuo = await QuotationDetail.findOne({
+      where: { productId: id },
+    });
+    if (productInQuo) {
+      return res
+        .status(400)
+        .json({ message: "this product cann't be deleted" });
+    }
     await product.destroy();
     res.status(204).json();
   } catch (err) {
